@@ -1,23 +1,29 @@
-public class SecondLargest {
-
+class Main {
     public static void main(String[] args) {
 
-        int[] numbers = {10, 5, 20, 8, 15};
+        int[] arr = {5, 5, 5, 5};
 
-        int largest = Integer.MIN_VALUE;
-        int secondLargest = Integer.MIN_VALUE;
+        int max = arr[0];
+        int second = Integer.MIN_VALUE;
+        boolean foundSecond = false;
 
-        for (int i = 0; i < numbers.length; i++) {
+        for (int n : arr) {
 
-            if (numbers[i] > largest) {
-                secondLargest = largest;
-                largest = numbers[i];
+            if (n > max) {
+                second = max;
+                max = n;
+                foundSecond = true;
             }
-            else if (numbers[i] > secondLargest && numbers[i] != largest) {
-                secondLargest = numbers[i];
+            else if (n > second && n != max) {
+                second = n;
+                foundSecond = true;
             }
         }
 
-        System.out.println("Second largest: " + secondLargest);
+        if (foundSecond) {
+            System.out.println(second);
+        } else {
+            System.out.println("No second distinct largest value");
+        }
     }
 }
