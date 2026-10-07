@@ -1,0 +1,27 @@
+import java.util.*;
+
+public class TopKFrequentElements {
+
+    public static List<Integer> topKFrequent(int[] nums, int k) {
+
+        Map<Integer, Integer> frequency = new HashMap<>();
+
+        for (int num : nums) {
+            frequency.put(num, frequency.getOrDefault(num, 0) + 1);
+        }
+
+        return frequency.entrySet()
+                .stream()
+                .sorted((a, b) -> b.getValue() - a.getValue())
+                .limit(k)
+                .map(Map.Entry::getKey)
+                .toList();
+    }
+
+    public static void main(String[] args) {
+
+        int[] nums = {1, 1, 1, 2, 2, 3};
+
+        System.out.println(topKFrequent(nums, 2));
+    }
+}
