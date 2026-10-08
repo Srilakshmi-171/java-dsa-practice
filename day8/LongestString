@@ -1,0 +1,32 @@
+import java.util.HashSet;
+
+class LongestString {
+    public static void main(String[] args) {
+        String str1 = "pwwkew";
+        HashSet<Character> set = new HashSet<>();
+        String longest = "";
+        int start = 0;
+
+        // 'end' expands the window to the right
+        for (int end = 0; end < str1.length(); end++) {
+            char ch = str1.charAt(end);
+
+            // If we hit a duplicate, shrink the window from the 'start' (left)
+            while (set.contains(ch)) {
+                set.remove(str1.charAt(start));
+                start++;
+            }
+
+            // Add the current character to our window
+            set.add(ch);
+
+            // Check if the current window is the longest we've seen so far
+            if ((end - start + 1) > longest.length()) {
+                longest = str1.substring(start, end + 1);
+            }
+        }
+
+        System.out.println("Longest Substring: " + longest);
+        System.out.println("Length: " + longest.length());
+    }
+}
