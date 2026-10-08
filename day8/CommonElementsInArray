@@ -1,0 +1,29 @@
+import java.util.HashSet;
+
+class CommonElementsInArray {
+    public static void main(String[] args) {
+        int[] arr1 = {1, 5, 10, 20, 40, 80};
+        int[] arr2 = {6, 7, 20, 80, 100};
+        int[] arr3 = {3, 4, 15, 20, 30, 70, 80, 120};
+        
+        HashSet<Integer> set1 = new HashSet<>();
+        HashSet<Integer> set2 = new HashSet<>();
+        
+        // Load elements of the first array into set1
+        for (int n : arr1) {
+            set1.add(n);
+        }
+        
+        // Load elements of the second array into set2
+        for (int n : arr2) {
+            set2.add(n);
+        }
+        
+        // If an element from arr3 exists in both sets, it is common to all three
+        for (int n : arr3) {
+            if (set1.contains(n) && set2.contains(n)) {
+                System.out.println(n);
+            }
+        }
+    }
+}
