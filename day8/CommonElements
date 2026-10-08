@@ -1,0 +1,22 @@
+import java.util.HashSet;
+
+class CommonElements {
+    public static void main(String[] args) {
+        int[] arr1 = {1, 2, 3, 4, 5};
+        int[] arr2 = {3, 4, 5, 6, 7};
+        
+        HashSet<Integer> set1 = new HashSet<>();
+        
+        // Add all elements from the first array to the set
+        for (int n : arr1) {
+            set1.add(n);
+        }
+        
+        // If an element cannot be added, it means it is a common element
+        for (int n : arr2) {
+            if (!set1.add(n)) {
+                System.out.println(n);
+            }
+        }
+    }
+}
