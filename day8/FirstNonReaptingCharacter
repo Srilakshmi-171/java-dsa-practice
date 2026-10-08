@@ -1,0 +1,23 @@
+import java.util.HashSet;
+
+class FirstNonReaptingCharacter {
+    public static void main(String[] args) {
+        String str1 = "apple";
+        String str2 = "grape";
+        
+        HashSet<Character> set1 = new HashSet<>();
+        
+        // Add all unique characters from the first string to the set
+        for (char ch : str1.toCharArray()) {
+            set1.add(ch);
+        }
+        
+        // Find and print the first common character
+        for (char ch : str2.toCharArray()) {
+            if (!set1.add(ch)) {
+                System.out.println(ch);
+                break; // Stop immediately after the first match
+            }
+        }
+    }
+}
