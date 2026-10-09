@@ -1,0 +1,33 @@
+import java.util.*;
+
+class SortingTwoArrays {
+    public static void main(String[] args) {
+        int[] arr1 = {1, 4, 7, 9};
+        int[] arr2 = {2, 3, 8, 10};
+        
+        int i = 0, j = 0;
+        int[] merge = new int[arr1.length + arr2.length];
+        
+        for (int k = 0; k < merge.length; k++) {
+            // Case 1: If arr1 is exhausted, take from arr2
+            if (i >= arr1.length) {
+                merge[k] = arr2[j++];
+            } 
+            // Case 2: If arr2 is exhausted, take from arr1
+            else if (j >= arr2.length) {
+                merge[k] = arr1[i++];
+            } 
+            // Case 3: Both arrays have elements, compare them
+            else if (arr1[i] < arr2[j]) {
+                merge[k] = arr1[i++];
+            } 
+            else {
+                merge[k] = arr2[j++];
+            }
+        }
+        
+        // Print the final merged array
+        System.out.println(Arrays.toString(merge));
+        // Expected Output: [1, 2, 3, 4, 7, 8, 9, 10]
+    }
+}
