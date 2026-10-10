@@ -1,0 +1,43 @@
+import java.util.HashMap;
+import java.util.Map;
+
+public class LongestSubarraySumK {
+    public static int getLongestSubarray(int[] arr, int k) {
+        // Map to store (prefix_sum, first_occurrence_index)
+        Map<Integer, Integer> map = new HashMap<>();
+        
+        int prefixSum = 0;
+        int maxLength = 0;
+        
+        // Base case: If prefixSum == k right from the start
+        map.put(0, -1);
+        
+        for (int i = 0; i < arr.length; i++) {
+            prefixSum += arr[i];
+            
+            // Check if (prefixSum - k) exists in the map
+            int rem = prefixSum - k;
+            if (map.containsKey(rem)) {
+                int length = i - map.get(rem);
+                maxLength = Math.max(maxLength, length);
+            }
+            
+            // CRITICAL: Only add the prefix sum if it doesn't exist.
+            // This ensures we keep the EARLIEST index for the maximum subarray length.
+            if (!map.containsValue(prefixSum)) { 
+                map.putIfAbsent(prefixSum, i);
+            }
+        }
+        
+        return maxLength;
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {1, 2, 3, 1, 1, 1, 1};
+        int k = 4;
+        
+        int result = getLongestSubarray(arr, k);
+        System.out.println("Length of the longest subarray with sum " + k + " is: " + result);
+        // Expected Output: 4 (Subarray: {1, 1, 1, 1} from index 3 to 6)
+    }
+}
