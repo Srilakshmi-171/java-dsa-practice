@@ -1,0 +1,38 @@
+class BinarySearchWithTwist {
+    public static void main(String[] args) {
+        int[] arr = {4, 5, 6, 7, 0, 1, 2};
+        int left = 0, right = arr.length - 1;
+        int target = 0;
+        int targetIndex = -1; // To store the result
+
+        while (left <= right) { // 1. Use <= to check single-element spaces
+            int mid = left + (right - left) / 2;
+            
+            if (arr[mid] == target) {
+                targetIndex = mid;
+                break;
+            }
+            
+            // 2. Check if the left half is sorted
+            if (arr[left] <= arr[mid]) {
+                // Is the target inside the sorted left half?
+                if (target >= arr[left] && target < arr[mid]) {
+                    right = mid - 1; // Search left
+                } else {
+                    left = mid + 1;  // Search right
+                }
+            } 
+            // 3. Otherwise, the right half must be sorted
+            else {
+                // Is the target inside the sorted right half?
+                if (target > arr[mid] && target <= arr[right]) {
+                    left = mid + 1;  // Search right
+                } else {
+                    right = mid - 1; // Search left
+                }
+            }
+        }
+        
+        System.out.println("Target index: " + targetIndex);
+    }
+}
