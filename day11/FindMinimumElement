@@ -1,0 +1,22 @@
+class Main {
+    public static void main(String[] args) {
+        int[] arr = {4, 5, 6, 7, 0, 1, 2};
+        int left = 0, right = arr.length - 1;
+        
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            
+            // If mid value is greater than right value, the minimum is on the right side
+            if (arr[mid] > arr[right]) {
+                left = mid + 1; // mid cannot be the minimum, so skip it
+            } 
+            // Otherwise, the right side is sorted, so the minimum is at mid or to its left
+            else {
+                right = mid;    // mid could be the minimum, so keep it in bounds
+            }
+        }
+        
+        // When left == right, both pointers converge perfectly on the minimum element
+        System.out.println("Minimum element is: " + arr[left]);
+    }
+}
