@@ -1,0 +1,20 @@
+class SearchPeakElement {
+    public static void main(String[] args) {
+        int[] arr = {1, 3, 5, 4, 2};
+        int left = 0, right = arr.length - 1;
+        
+        // Loop runs until left == right
+        while (left < right) { 
+            int mid = left + (right - left) / 2;
+            
+            if (arr[mid] < arr[mid + 1]) {
+                left = mid + 1; // 🛠️ Fix: Move past mid since mid + 1 is higher
+            } else {
+                right = mid;    // mid could still be the peak, so we keep it
+            }
+        }
+        
+        // When left == right, we have converged on a peak element
+        System.out.println("Peak element index: " + left);
+    }
+}
