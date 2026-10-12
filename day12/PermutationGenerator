@@ -1,0 +1,62 @@
+import java.util.Arrays;
+
+class PermutationGenerator  {
+    public static void main(String[] args) {
+        int[] nums = {1, 2, 3};
+        nextPermutation(nums);
+        System.out.println(Arrays.toString(nums)); // Expected: [1, 3, 2]
+        
+        int[] nums2 = {3, 2, 1};
+        nextPermutation(nums2);
+        System.out.println(Arrays.toString(nums2)); // Expected: [1, 2, 3]
+    }
+
+    public static void nextPermutation(int[] nums) {
+        if (nums == null || nums.length <= 1) {
+            return;
+        }
+
+        // Step 1: Find the pivot from right to left
+        // The pivot is the first element that is smaller than the element to its right
+        int pivotIndex = -1;
+        for (int i = nums.length - 2; i >= 0; i--) {
+            if (nums[i] < nums[i + 1]) {
+                pivotIndex = i;
+                break;
+            }
+        }
+
+        // Step 2: If a pivot exists, find the replacement and swap
+        if (pivotIndex != -1) {
+            // Find the smallest element to the right of pivot that is strictly greater than nums[pivotIndex]
+            // Since the suffix is inherently sorted in descending order, the first element 
+            // greater than the pivot from the right will be the smallest valid candidate.
+            for (int i = nums.length - 1; i > pivotIndex; i--) {
+                if (nums[i] > nums[pivotIndex]) {
+                    swap(nums, pivotIndex, i);
+                    break;
+                }
+            }
+        }
+
+        // Step 3 & 4: Reverse the suffix after the pivot
+        // If no pivot exists (pivotIndex == -1), this reverses the entire array automatically
+        reverse(nums, pivotIndex + 1, nums.length - 1);
+    }
+
+    // Helper method to reverse an array segment in-place
+    private static void reverse(int[] nums, int start, int end) {
+        while (start < end) {
+            swap(nums, start, end);
+            start++;
+            end--;
+        }
+    }
+
+    // Helper method to swap two elements
+    private static void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+}
