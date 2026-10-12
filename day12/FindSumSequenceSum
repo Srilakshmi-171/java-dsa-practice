@@ -1,0 +1,36 @@
+import java.util.HashMap;
+
+class FindSumSequenceSum {
+    public static void main(String[] args) {
+        int[] nums = {1, 2, 1, 2, 1,2,1};
+        int k = 3;
+        
+        System.out.println(subarraySum(nums, k));
+    }
+
+    public static int subarraySum(int[] nums, int k) {
+        int count = 0;
+        int currentSum = 0;
+        
+        // HashMap to store (Prefix Sum -> Frequency)
+        HashMap<Integer, Integer> map = new HashMap<>();
+        
+        // Base case: A prefix sum of 0 has been seen once 
+        // (handles subarrays starting from index 0)
+        map.put(0, 1);
+        
+        for (int i = 0; i < nums.length; i++) {
+            currentSum += nums[i];
+            
+            // Check if there is a prefix sum that we can subtract to get k
+            if (map.containsKey(currentSum - k)) {
+                count += map.get(currentSum - k);
+            }
+            
+            // Record the current prefix sum in the map
+            map.put(currentSum, map.getOrDefault(currentSum, 0) + 1);
+        }
+        
+        return count;
+    }
+}
