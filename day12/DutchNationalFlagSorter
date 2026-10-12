@@ -1,0 +1,42 @@
+import java.util.Arrays;
+
+class DutchNationalFlagSorter  {
+    public static void main(String[] args) {
+        int[] nums = {2, 0, 2, 1, 1, 0};
+        
+        sortColors(nums);
+        
+        // Print the sorted result array
+        System.out.println(Arrays.toString(nums));
+    }
+
+    public static void sortColors(int[] nums) {
+        int low = 0;          // Boundary pointer for 0s (Red)
+        int mid = 0;          // Scanner pointer for 1s (White)
+        int high = nums.length - 1; // Boundary pointer for 2s (Blue)
+        
+        while (mid <= high) {
+            if (nums[mid] == 0) {
+                // If we see a 0, swap it to the low boundary and move both forward
+                swap(nums, low, mid);
+                low++;
+                mid++;
+            } else if (nums[mid] == 1) {
+                // If we see a 1, it's already in the right zone, just move scanner forward
+                mid++;
+            } else if (nums[mid] == 2) {
+                // If we see a 2, swap it to the high boundary and shrink the high boundary.
+                // Do NOT increment mid here because the swapped element from 'high' is unexamined.
+                swap(nums, mid, high);
+                high--;
+            }
+        }
+    }
+
+    // Helper method to swap two elements using a temporary variable
+    private static void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+}
