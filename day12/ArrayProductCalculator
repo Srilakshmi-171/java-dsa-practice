@@ -1,0 +1,31 @@
+import java.util.Arrays;
+
+class ArrayProductCalculator {
+    public static void main(String[] args) {
+        int[] nums = {1, 2, 3, 4};
+        int[] result = productExceptSelf(nums);
+        
+        // Print the final result array
+        System.out.println(Arrays.toString(result));
+    }
+
+    public static int[] productExceptSelf(int[] nums) {
+        int n = nums.length;
+        int[] result = new int[n];
+        
+        // Step 1: Calculate prefix products and store them directly in the result array
+        result[0] = 1; // Element at index 0 has nothing to its left
+        for (int i = 1; i < n; i++) {
+            result[i] = result[i - 1] * nums[i - 1];
+        }
+        
+        // Step 2: Pass backwards to calculate suffix products on the fly
+        int rightProduct = 1; // Running product of elements to the right
+        for (int i = n - 1; i >= 0; i--) {
+            result[i] = result[i] * rightProduct; // Multiply left product by right product
+            rightProduct *= nums[i];              // Update the right product for the next element
+        }
+        
+        return result;
+    }
+}
