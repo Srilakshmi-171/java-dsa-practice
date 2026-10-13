@@ -1,0 +1,43 @@
+import java.util.Stack;
+
+public class ParenthesesValidator {
+    public static boolean isValid(String s) {
+        // A stack to keep track of opening brackets
+        Stack<Character> stack = new Stack<>();
+        
+        // Loop through each character in the string
+        for (char c : s.toCharArray()) {
+            // If it's an opening bracket, push it onto the stack
+            if (c == '(' || c == '{' || c == '[') {
+                stack.push(c);
+            } 
+            // If it's a closing bracket, check for validity
+            else {
+                // If the stack is empty, there is no matching opening bracket
+                if (stack.isEmpty()) {
+                    return false;
+                }
+                
+                char top = stack.pop();
+                // Check if the closing bracket matches the most recent opening bracket
+                if ((c == ')' && top != '(') ||
+                    (c == '}' && top != '{') ||
+                    (c == ']' && top != '[')) {
+                    return false;
+                }
+            }
+        }
+        
+        // If the stack is empty, all brackets were matched correctly
+        return stack.isEmpty();
+    }
+
+    public static void main(String[] args) {
+        // Test cases
+        System.out.println(isValid("()"));     // true
+        System.out.println(isValid("()[]{}")); // true
+        System.out.println(isValid("(]"));     // false
+        System.out.println(isValid("([)]"));   // false
+        System.out.println(isValid("{[]}"));   // true
+    }
+}
