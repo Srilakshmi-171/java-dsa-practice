@@ -1,0 +1,30 @@
+public class MoveZeroes {
+
+    public static void moveZeroesToEnd(int[] numbers) {
+        int nextNonZeroIndex = 0;
+
+        // Iterate through the array with a 'explorer' pointer
+        for (int explorerIndex = 0; explorerIndex < numbers.length; explorerIndex++) {
+            // When we find a non-zero element, swap it to the next available position
+            if (numbers[explorerIndex] != 0) {
+                int temporary = numbers[nextNonZeroIndex];
+                numbers[nextNonZeroIndex] = numbers[explorerIndex];
+                numbers[explorerIndex] = temporary;
+                
+                // Move the target position forward
+                nextNonZeroIndex++;
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        int[] sampleNumbers = {7, 0, 3, 12};
+        
+        moveZeroesToEnd(sampleNumbers);
+
+        // Print the modified array
+        for (int num : sampleNumbers) {
+            System.out.print(num + " "); // Output: 7 3 12 0 
+        }
+    }
+}
