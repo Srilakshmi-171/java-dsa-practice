@@ -1,0 +1,29 @@
+public class MissingNumberFinder {
+
+    /**
+     * Finds the single missing number in an array containing distinct numbers 
+     * in the range [0, n].
+     */
+    public static int findMissingNumber(int[] numbers) {
+        int rangeSize = numbers.length;
+        
+        // Using Gauss Summation Formula to get the sum of 0 to n.
+        // Casted to long to safely prevent potential integer overflow with large inputs.
+        long expectedSum = (long) rangeSize * (rangeSize + 1) / 2;
+        long actualSum = 0;
+        
+        for (int num : numbers) {
+            actualSum += num;
+        }
+        
+        // The difference yields the missing element.
+        return (int) (expectedSum - actualSum);
+    }
+    
+    public static void main(String[] args) {
+        int[] sampleNumbers = {3, 0, 1};
+        int missingNumber = findMissingNumber(sampleNumbers);
+        
+        System.out.println("The missing number is: " + missingNumber);
+    }
+}
