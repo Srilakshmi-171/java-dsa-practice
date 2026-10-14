@@ -1,0 +1,30 @@
+public class MajorityElementFinder {
+
+    public static int findMajorityElement(int[] numbers) {
+        int candidate = numbers[0];
+        int voteCount = 0;
+
+        for (int num : numbers) {
+            // If the vote count drops to zero, elect a new candidate
+            if (voteCount == 0) {
+                candidate = num;
+            }
+
+            // Increment or decrement votes based on the current element
+            if (num == candidate) {
+                voteCount++;
+            } else {
+                voteCount--;
+            }
+        }
+
+        return candidate;
+    }
+
+    public static void main(String[] args) {
+        int[] sampleNumbers = {2, 2, 1, 1, 1, 2, 2};
+        int majorityElement = findMajorityElement(sampleNumbers);
+        
+        System.out.println("The majority element is: " + majorityElement); // Output: 2
+    }
+}
