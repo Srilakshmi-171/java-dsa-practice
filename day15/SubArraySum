@@ -1,0 +1,39 @@
+import java.util.HashMap;
+
+public class SubArraySum {
+    public int subarraySum(int[] nums, int k) {
+        // Map to store (prefixSum, count of times this prefixSum has occurred)
+        HashMap<Integer, Integer> map = new HashMap<>();
+        
+        // Base case: a prefix sum of 0 has occurred 1 time (empty subarray)
+        map.put(0, 1);
+        
+        int currentSum = 0;
+        int count = 0;
+        
+        for (int num : nums) {
+            // Update the running cumulative sum
+            currentSum += num;
+            
+            // Check if (currentSum - k) exists in our map
+            if (map.containsKey(currentSum - k)) {
+                count += map.get(currentSum - k);
+            }
+            
+            // Add/update the currentSum frequency in the map
+            map.put(currentSum, map.getOrDefault(currentSum, 0) + 1);
+        }
+        
+        return count;
+    }
+
+    public static void main(String[] args) {
+        Solution solver = new Solution();
+        
+        // Test Example 1
+        System.out.println(solver.subarraySum(new int[]{1, 1, 1}, 2)); // Output: 2
+        
+        // Test Example 2
+        System.out.println(solver.subarraySum(new int[]{1, 2, 3}, 3)); // Output: 2
+    }
+}
