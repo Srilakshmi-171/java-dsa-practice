@@ -1,0 +1,54 @@
+import java.util.*;
+
+public class MedianFinder {
+    private final PriorityQueue<Integer> maxHeap;
+    private final PriorityQueue<Integer> minHeap;
+
+    public MedianFinder() {
+        this.maxHeap = new PriorityQueue<>(Collections.reverseOrder());
+        this.minHeap = new PriorityQueue<>();
+    }
+
+    public void addNum(int num) {
+        // Step 1: Filter through maxHeap into minHeap to automatically sort the value
+        maxHeap.add(num);
+        minHeap.add(maxHeap.poll());
+
+        // Step 2: Enforce the size constraint (maxHeap must be >= minHeap in size)
+        if (maxHeap.size() < minHeap.size()) {
+            maxHeap.add(minHeap.poll());
+        }
+    }
+
+    public double findMedian() {
+        // Production Check: Reject calls if no data has been received yet
+        if (maxHeap.isEmpty()) {
+            throw new IllegalStateException("Cannot calculate median on an empty data stream.");
+        }
+
+        // If total elements are odd, maxHeap is guaranteed to hold the extra element
+        if (maxHeap.size() > minHeap.size()) {
+            return maxHeap.peek();
+        }
+        
+        // If even, prevent integer overflow by casting the first element to double
+        return ((double) maxHeap.peek() + minHeap.peek()) / 2.0;
+    }
+
+    public static void main(String[] args) {
+        MedianFinder mf = new MedianFinder();
+        
+        // Test Case 1: Normal Flow
+        int[] stream = {5, 2, 8, 4};
+        for (int num : stream) {
+            mf.addNum(num);
+            System.out.println("Added: " + num + " -> Median: " + mf.findMedian());
+        }
+
+        // Test Case 2: Overflow Prevention Verification
+        MedianFinder overflowTester = new MedianFinder();
+        overflowTester.addNum(Integer.MAX_VALUE);
+        overflowTester.addNum(Integer.MAX_VALUE - 1);
+        System.out.println("Large values Median (Safe from overflow): " + overflowTester.findMedian());
+    }
+}
