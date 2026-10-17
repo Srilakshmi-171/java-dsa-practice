@@ -1,0 +1,25 @@
+import java.util.*;
+
+class TopKFrequentElements {
+    public static void main(String[] args) {
+        int arr[] = {1, 2, 2, 3};
+        int k = 2;
+
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int n : arr) {
+            map.put(n, map.getOrDefault(n, 0) + 1);
+        }
+
+        // Convert the top K keys into an int[] array
+        int[] result = map.entrySet()
+            .stream()
+            .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+            .limit(k)
+            .mapToInt(Map.Entry::getKey) // Extract only the key (the array element)
+            .toArray();                  // Convert the stream to a primitive int array
+
+        // Print the final array
+        System.out.println("Top " + k + " Frequent Elements Array: " + Arrays.toString(result));
+        // Output: [2, 1] (or)
+    }
+}
