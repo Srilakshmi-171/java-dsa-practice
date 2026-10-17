@@ -1,0 +1,43 @@
+import java.util.*;
+
+class LargeRectangleArea {
+    public static int largestRectangleArea(int[] heights) {
+        if (heights == null || heights.length == 0) {
+            return 0;
+        }
+
+        Stack<Integer> stack = new Stack<>();
+        int maxArea = 0;
+        int n = heights.length;
+
+        // Loop runs up to 'n' to include the virtual bar of height 0 at index n
+        for (int i = 0; i <= n; i++) {
+            // Use 0 as the height for the virtual trailing bar
+            int currentHeight = (i == n) ? 0 : heights[i];
+
+            // If current bar is shorter, pop and calculate areas of previous rectangles
+            while (!stack.isEmpty() && currentHeight < heights[stack.peek()]) {
+                int height = heights[stack.pop()];
+                
+                // If stack is empty, it means this bar was the shortest so far (extends to index 0)
+                int leftBoundary = stack.isEmpty() ? -1 : stack.peek();
+                int width = i - leftBoundary - 1;
+
+                maxArea = Math.max(maxArea, height * width);
+            }
+            
+            // Push the current index onto the stack
+            stack.push(i);
+        }
+
+        return maxArea;
+    }
+
+    public static void main(String[] args) {
+        int[] histogram = {2, 4, 4};
+        int result = largestRectangleArea(histogram);
+        
+        System.out.println("Histogram: " + Arrays.toString(histogram));
+        System.out.println("Largest Rectangle Area: " + result); // Output: 8
+    }
+}
