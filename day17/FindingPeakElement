@@ -1,0 +1,27 @@
+class FindingPeakElement {
+    public static void main(String[] args) {
+        int[] nums = {1, 2, 1, 3, 5, 6, 4};
+        
+        int left = 0;
+        int right = nums.length - 1;
+
+        // Loop until the search space reduces to a single element (left == right)
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+
+            // If mid element is greater than the next element, 
+            // a peak exists at mid or to its left.
+            if (nums[mid] > nums[mid + 1]) {
+                right = mid;
+            } 
+            // Otherwise, a peak exists strictly to the right.
+            else {
+                left = mid + 1;
+            }
+        }
+
+        // 'left' and 'right' converge to the index of a peak element
+        System.out.println("Peak element found at index: " + left);
+        System.out.println("Peak element value is: " + nums[left]);
+    }
+}
