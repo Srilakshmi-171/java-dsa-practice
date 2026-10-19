@@ -1,0 +1,56 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class MergedArray {
+    public static int[][] merge(int[][] intervals) {
+        // Edge case: if there's 0 or 1 interval, no merging is needed
+        if (intervals.length <= 1) {
+            return intervals;
+        }
+
+        // Step 1: Sort the intervals by their starting values
+        Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
+
+        // Step 2: Initialize a list to hold the merged intervals
+        List<int[]> merged = new ArrayList<>();
+        
+        // Add the first interval to start the comparison baseline
+        int[] currentInterval = intervals[0];
+        merged.add(currentInterval);
+2hi
+        // Step 3: Iterate through the remaining intervals
+        for (int i = 1; i < intervals.length; i++) {
+            int currentStart = intervals[i][0];
+            int currentEnd = intervals[i][1];
+            int lastMergedEnd = currentInterval[1];
+
+            // Compare and check for overlap
+            if (currentStart <= lastMergedEnd) {
+                // Overlap: Extend the ending value of the last merged interval
+                currentInterval[1] = Math.max(lastMergedEnd, currentEnd);
+            } else {
+                // No overlap: Move to the next interval and add it to the list
+                currentInterval = intervals[i];
+                merged.add(currentInterval);
+            }
+        }
+
+        // Step 4: Convert the list back to a 2D array
+        return merged.toArray(new int[merged.size()][]);
+    }
+
+    // Main method to run and test the program
+    public static void main(String[] args) {
+        // Sample input from your example
+        int[][] input = {{1, 3}, {2, 6}, {8, 10}, {15, 18}};
+        
+        System.out.println("Original intervals: " + Arrays.deepToString(input));
+        
+        // Call the merge function
+        int[][] result = merge(input);
+        
+        // Print the output
+        System.out.println("Merged intervals:   " + Arrays.deepToString(result));
+    }
+}
