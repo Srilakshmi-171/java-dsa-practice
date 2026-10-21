@@ -1,0 +1,48 @@
+import java.util.Arrays;
+
+public class ProductExceptSelf {
+    
+    public int[] productExceptSelf(int[] nums) {
+        int n = nums.length;
+        int[] answer = new int[n];
+        
+        // Step 1: Calculate prefix products and store them in the answer array
+        answer[0] = 1; 
+        for (int i = 1; i < n; i++) {
+            answer[i] = answer[i - 1] * nums[i - 1];
+        }
+        
+        // Step 2: Calculate suffix products on the fly and multiply with prefix products
+        int suffix = 1;
+        for (int i = n - 1; i >= 0; i--) {
+            answer[i] = answer[i] * suffix;
+            suffix *= nums[i];
+        }
+        
+        return answer;
+    }
+
+    public static void main(String[] args) {
+        ProductExceptSelf solver = new ProductExceptSelf();
+
+        // Test Case 1: Standard case (No zeros)
+        int[] nums1 = {1, 2, 3, 4};
+        int[] result1 = solver.productExceptSelf(nums1);
+        System.out.println("Input:  " + Arrays.toString(nums1));
+        System.out.println("Output: " + Arrays.toString(result1)); // Expected: [24, 12, 8, 6]
+        System.out.println();
+
+        // Test Case 2: One zero in the array
+        int[] nums2 = {-1, 1, 0, -3, 3};
+        int[] result2 = solver.productExceptSelf(nums2);
+        System.out.println("Input:  " + Arrays.toString(nums2));
+        System.out.println("Output: " + Arrays.toString(result2)); // Expected: [0, 0, 9, 0, 0]
+        System.out.println();
+
+        // Test Case 3: Multiple zeros in the array
+        int[] nums3 = {4, 0, 5, 0};
+        int[] result3 = solver.productExceptSelf(nums3);
+        System.out.println("Input:  " + Arrays.toString(nums3));
+        System.out.println("Output: " + Arrays.toString(result3)); // Expected: [0, 0, 0, 0]
+    }
+}
