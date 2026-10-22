@@ -1,0 +1,56 @@
+import java.util.Arrays;
+
+public class CoinChange {
+    public int coinChange(int[] coins, int amount) {
+        // Base case: if target amount is 0, we need 0 coins
+        if (amount == 0) {
+            return 0;
+        }
+
+        // Create DP array up to size amount + 1
+        int[] dp = new int[amount + 1];
+        
+        // Fill the array with a large value representing "infinity"
+        // We use (amount + 1) because it is impossible to need more coins than the amount itself
+        int max = amount + 1;
+        Arrays.fill(dp, max);
+        
+        // 0 coins are needed to make an amount of 0
+        dp[0] = 0;
+
+        // Outer loop: Iterate through all sub-amounts from 1 to target amount
+        for (int i = 1; i <= amount; i++) {
+            // Inner loop: Check every coin choice
+            for (int coin : coins) {
+                // If the coin is smaller than or equal to the current sub-amount
+                if (coin <= i) {
+                    // Update dp[i] by taking the minimum combination
+                    dp[i] = Math.min(dp[i], dp[i - coin] + 1);
+                }
+            }
+        }
+
+        // If dp[amount] is still equal to the max placeholder, it means the amount cannot be made
+        return dp[amount] > amount ? -1 : dp[amount];
+    }
+
+    // Main method to test the implementation
+    public static void main(String[] args) {
+        Solution solver = new Solution();
+
+        // Test Case 1: Standard case (Expected: 3 -> 5 + 5 + 1)
+        int[] coins1 = {1, 2, 5};
+        int amount1 = 11;
+        System.out.println("Coins for amount 11: " + solver.coinChange(coins1, amount1));
+
+        // Test Case 2: Impossible amount (Expected: -1)
+        int[] coins2 = {2};
+        int amount2 = 3;
+        System.out.println("Coins for amount 3:  " + solver.coinChange(coins2, amount2));
+
+        // Test Case 3: Edge case amount 0 (Expected: 0)
+        int[] coins3 = {1};
+        int amount3 = 0;
+        System.out.println("Coins for amount 0:  " + solver.coinChange(coins3, amount3));
+    }
+}
