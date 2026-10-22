@@ -1,0 +1,47 @@
+public class FindingMinimum {
+    public int findMin(int[] nums) {
+        // Edge case: if the array is empty or null, return -1 (or handle as needed)
+        if (nums == null || nums.length == 0) {
+            return -1;
+        }
+
+        int left = 0;
+        int right = nums.length - 1;
+
+        // Binary search loop
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+
+            // Case 1: Middle value is greater than the right value
+            if (nums[mid] > nums[right]) {
+                // The inflection point (and minimum) must be to the right of mid
+                left = mid + 1;
+            } 
+            // Case 2: Middle value is less than or equal to the right value
+            else {
+                // The minimum is either at mid or to its left
+                right = mid;
+            }
+        }
+
+        // When left == right, they both point to the minimum element
+        return nums[left];
+    }
+
+    // Main method to test the implementation
+    public static void main(String[] args) {
+        Solution solver = new Solution();
+
+        // Test Case 1: [4, 5, 6, 7, 1, 2, 3]
+        int[] test1 = {4, 5, 6, 7, 1, 2, 3};
+        System.out.println("Min of test1 (Expected 1): " + solver.findMin(test1));
+
+        // Test Case 2: [3, 4, 5, 1, 2]
+        int[] test2 = {3, 4, 5, 1, 2};
+        System.out.println("Min of test2 (Expected 1): " + solver.findMin(test2));
+        
+        // Test Case 3: Already sorted / non-rotated array [1, 2, 3, 4, 5]
+        int[] test3 = {1, 2, 3, 4, 5};
+        System.out.println("Min of test3 (Expected 1): " + solver.findMin(test3));
+    }
+}
