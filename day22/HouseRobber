@@ -1,0 +1,41 @@
+public class HouseRobber {
+    public int rob(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        
+        int prev2 = 0; // Equivalent to dp[i - 2]
+        int prev1 = 0; // Equivalent to dp[i - 1]
+        
+        for (int num : nums) {
+            // Choice: either skip current house (prev1) 
+            // or rob current house and add to money from two houses ago (prev2 + num)
+            int current = Math.max(prev1, prev2 + num);
+            
+            // Shift pointers for the next iteration
+            prev2 = prev1;
+            prev1 = current;
+        }
+        
+        return prev1; // prev1 holds the maximum money robbed up to the last house
+    }
+
+    public static void main(String[] args) {
+        HouseRobber robber = new HouseRobber();
+
+        // Test Case 1: Standard alternating choices
+        int[] houses1 = {1, 2, 3, 1};
+        System.out.println("Test 1 Max Profit: " + robber.rob(houses1)); 
+        // Expected Output: 4 (Rob house 1 [value 1] and house 3 [value 3])
+
+        // Test Case 2: Multi-skips required for optimal profit
+        int[] houses2 = {2, 7, 9, 3, 1};
+        System.out.println("Test 2 Max Profit: " + robber.rob(houses2)); 
+        // Expected Output: 12 (Rob house 1, house 3, and house 5)
+
+        // Test Case 3: Empty array edge case
+        int[] houses3 = {};
+        System.out.println("Test 3 Max Profit: " + robber.rob(houses3)); 
+        // Expected Output: 0
+    }
+}
