@@ -1,0 +1,68 @@
+import java.util.Stack;
+
+public class DecodeString {
+    public String decodeString(String s) {
+        if (s == null || s.length() == 0) {
+            return "";
+        }
+
+        // Two stacks to track nested layers
+        Stack<Integer> countStack = new Stack<>();
+        Stack<StringBuilder> stringStack = new Stack<>();
+        
+        StringBuilder currentString = new StringBuilder();
+        int currentNumber = 0;
+
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+
+            if (Character.isDigit(ch)) {
+                // Formulate multi-digit numbers correctly (e.g., '12' -> 1 * 10 + 2)
+                currentNumber = currentNumber * 10 + (ch - '0');
+            } 
+            else if (ch == '[') {
+                // Push the current multiplier and the string built so far onto their respective stacks
+                countStack.push(currentNumber);
+                stringStack.push(currentString);
+                
+                // Reset processing variables for the inner nested block
+                currentString = new StringBuilder();
+                currentNumber = 0;
+            } 
+            else if (ch == ']') {
+                // Pop the string context built before this bracket layer and its repetition count
+                StringBuilder decodedString = stringStack.pop();
+                int repeatTimes = countStack.pop();
+                
+                // Append the current inner string 'repeatTimes' times to the outer string segment
+                for (int k = 0; k < repeatTimes; k++) {
+                    decodedString.append(currentString);
+                }
+                
+                // The newly combined string becomes our active working context
+                currentString = decodedString;
+            } 
+            else {
+                // Normal alphabet character: append to the current working sequence
+                currentString.append(ch);
+            }
+        }
+
+        return currentString.toString();
+    }
+
+    // Main method to verify the implementation
+    public static void main(String[] args) {
+        DecodeString decoder = new DecodeString();
+
+        // Test Case 1: Complex Nested Example
+        String test1 = "3[a2[c]]";
+        System.out.println("Encoded: " + test1 + " -> Decoded: " + decoder.decodeString(test1));
+        // Expected Output: accaccacc
+
+        // Test Case 2: Multi-digit and Multi-block Example
+        String test2 = "10[a]2[bc]";
+        System.out.println("Encoded: " + test2 + " -> Decoded: " + decoder.decodeString(test2));
+        // Expected Output: aaaaaaaaaabcbc
+    }
+}
